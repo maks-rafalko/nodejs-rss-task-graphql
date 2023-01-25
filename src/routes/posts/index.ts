@@ -15,14 +15,14 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       '/:id',
       {schema: {params: idParamSchema}},
     async function (request, reply): Promise<PostEntity> {
-        const { id } = request.params;
-        const post = await fastify.db.posts.findOne(id);
+      const { id } = request.params;
+      const post = await fastify.db.posts.findOne({key: 'id', equals: id});
 
-        if (post === null) {
-            throw fastify.httpErrors.notFound();
-        }
+      if (post === null) {
+        throw fastify.httpErrors.notFound();
+      }
 
-        return post;
+      return post;
     }
   );
 
@@ -34,24 +34,21 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       },
     },
     async function (request, reply): Promise<PostEntity> {
-        const { userId } = request.body;
+      const { userId } = request.body;
 
-        if (!isUuid(userId)) {
-            throw fastify.httpErrors.badRequest();
-        }
+      if (!isUuid(userId)) {
+        throw fastify.httpErrors.badRequest();
+      }
 
-        const user = await fastify.db.users.findOne(userId);
+      const user = await fastify.db.users.findOne({key: 'id', equals: userId});
 
-        if (user === null) {
-            throw fastify.httpErrors.badRequest();
-        }
+      if (user === null) {
+        throw fastify.httpErrors.badRequest();
+      }
 
-        const post = await fastify.db.posts.create(request.body);
+      const post = await fastify.db.posts.create(request.body);
 
-        user!.postIds.push(post.id);
-        await fastify.db.users.change(userId, user!);
-
-        return post;
+      return post;
     }
   );
 
@@ -63,26 +60,21 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       },
     },
     async function (request, reply): Promise<PostEntity> {
-        const { id } = request.params;
-        const post = await fastify.db.posts.findOne(id);
+      const { id } = request.params;
 
-        if (post === null) {
-            throw fastify.httpErrors.notFound();
-        }
+      if (!isUuid(id)) {
+        throw fastify.httpErrors.badRequest();
+      }
 
-        await fastify.db.posts.delete(id);
+      const post = await fastify.db.posts.findOne({key: 'id', equals: id});
 
-        const user = await fastify.db.users.findOne(post.userId);
+      if (post === null) {
+        throw fastify.httpErrors.notFound();
+      }
 
-        if (user === null) {
-            throw fastify.httpErrors.internalServerError();
-        }
+      await fastify.db.posts.delete(id);
 
-        user.postIds = user.postIds.filter((postId) => postId !== id);
-
-        await fastify.db.users.change(post.userId, user);
-
-        return post;
+      return post;
     }
   );
 
@@ -95,16 +87,21 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       },
     },
     async function (request, reply): Promise<PostEntity> {
-        const { id } = request.params;
-        const post = await fastify.db.posts.findOne(id);
+      const { id } = request.params;
 
-        if (post === null) {
-            throw fastify.httpErrors.notFound();
-        }
+      if (!isUuid(id)) {
+        throw fastify.httpErrors.badRequest();
+      }
 
-        const changed = await fastify.db.posts.change(id, request.body);
+      const post = await fastify.db.posts.findOne({key: 'id', equals: id});
 
-        return changed!;
+      if (post === null) {
+        throw fastify.httpErrors.notFound();
+      }
+
+      const changed = await fastify.db.posts.change(id, request.body);
+
+      return changed!;
     }
   );
 };

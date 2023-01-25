@@ -2,7 +2,7 @@ import { FastifyPluginAsyncJsonSchemaToTs } from '@fastify/type-provider-json-sc
 import { idParamSchema } from '../../utils/reusedSchemas';
 import { createProfileBodySchema, changeProfileBodySchema } from './schema';
 import type { ProfileEntity } from '../../utils/DB/entities/DBProfiles';
-import {removeArrayItem} from "../../utils/removeArrayItem";
+import {isUuid} from "../../utils/isUuid";
 
 const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
   fastify
@@ -19,14 +19,14 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       },
     },
     async function (request, reply): Promise<ProfileEntity> {
-        const { id } = request.params;
-        const profile = await fastify.db.profiles.findOne(id);
+      const { id } = request.params;
+      const profile = await fastify.db.profiles.findOne({key: 'id', equals: id});
 
-        if (profile === null) {
-            throw fastify.httpErrors.notFound();
-        }
+      if (profile === null) {
+          throw fastify.httpErrors.notFound();
+      }
 
-        return profile;
+      return profile;
     }
   );
 
@@ -38,23 +38,29 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       },
     },
     async function (request, reply): Promise<ProfileEntity> {
-        const { userId } = request.body;
+      const { userId, memberTypeId } = request.body;
 
-        const user = await fastify.db.users.findOne(userId);
+      const user = await fastify.db.users.findOne({key: 'id', equals: userId});
 
-        if (user === null) {
-            throw fastify.httpErrors.badRequest();
-        }
+      if (user === null) {
+          throw fastify.httpErrors.badRequest();
+      }
 
-        if (user.profileId !== null) {
-            throw fastify.httpErrors.badRequest();
-        }
+      const profileByUserId = await fastify.db.profiles.findOne({key: 'userId', equals: userId});
 
-        const profile = await fastify.db.profiles.create(request.body);
+      if (profileByUserId !== null) {
+          throw fastify.httpErrors.badRequest();
+      }
 
-        await fastify.db.users.change(userId, { profileId: profile.id });
+      const memberType = await fastify.db.memberTypes.findOne({key: 'id', equals: memberTypeId});
 
-        return profile;
+      if (memberType === null) {
+          throw fastify.httpErrors.badRequest();
+      }
+
+      const profile = await fastify.db.profiles.create(request.body);
+
+      return profile;
     }
   );
 
@@ -66,22 +72,21 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       },
     },
     async function (request, reply): Promise<ProfileEntity> {
-        const { id } = request.params;
-        const profile = await fastify.db.profiles.findOne(id);
+      const { id } = request.params;
 
-        if (profile === null) {
-            throw fastify.httpErrors.notFound();
-        }
+      if (!isUuid(id)) {
+        throw fastify.httpErrors.badRequest();
+      }
 
-        await fastify.db.profiles.delete(id);
+      const profile = await fastify.db.profiles.findOne({key: 'id', equals: id});
 
-        const user = await fastify.db.users.findOne(profile.userId);
+      if (profile === null) {
+          throw fastify.httpErrors.notFound();
+      }
 
-        if (user !== null) {
-            await fastify.db.users.change(user.id, { profileId: null });
-        }
+      await fastify.db.profiles.delete(id);
 
-        return profile;
+      return profile;
     }
   );
 
@@ -94,43 +99,21 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       },
     },
     async function (request, reply): Promise<ProfileEntity> {
-        const { id } = request.params;
-        const profile = await fastify.db.profiles.findOne(id);
+      const { id } = request.params;
 
-        if (profile === null) {
-            throw fastify.httpErrors.notFound();
-        }
+      if (!isUuid(id)) {
+        throw fastify.httpErrors.badRequest();
+      }
 
-        const previousMemberTypeId = profile.memberTypeId;
-        const newMemberTypeId = request.body.memberTypeId;
+      const profile = await fastify.db.profiles.findOne({key: 'id', equals: id});
 
-        const updatedProfile = await fastify.db.profiles.change(id, request.body);
+      if (profile === null) {
+        throw fastify.httpErrors.notFound();
+      }
 
-        if (previousMemberTypeId !== undefined
-            && newMemberTypeId !== undefined
-            && previousMemberTypeId !== newMemberTypeId) {
-            const previousMemberType = await fastify.db.memberTypes.findOne(previousMemberTypeId);
+      const updatedProfile = await fastify.db.profiles.change(id, request.body);
 
-            if (previousMemberType === null) {
-                throw fastify.httpErrors.internalServerError();
-            }
-
-            removeArrayItem(previousMemberType.profileIds, id);
-
-            await fastify.db.memberTypes.change(previousMemberTypeId, previousMemberType);
-
-            const newMemberType = await fastify.db.memberTypes.findOne(newMemberTypeId);
-
-            if (newMemberType === null) {
-                throw fastify.httpErrors.internalServerError();
-            }
-
-            newMemberType.profileIds.push(id);
-
-            await fastify.db.memberTypes.change(newMemberTypeId, newMemberType);
-        }
-
-        return updatedProfile!;
+      return updatedProfile!;
     }
   );
 };
