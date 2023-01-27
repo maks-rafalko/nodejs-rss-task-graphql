@@ -3,9 +3,10 @@ import {postType} from "../post/postType";
 import {profileType} from "../profile/profileType";
 import {memberTypeType} from "../memberType/memberTypeType";
 
+// @ts-ignore
 const userType = new GraphQLObjectType({
   name: 'User',
-  fields: {
+  fields: () => ({
     id: { type: GraphQLID },
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString },
@@ -18,24 +19,32 @@ const userType = new GraphQLObjectType({
       }
     },
     profile: {
-      type: new GraphQLList(profileType),
+      type: profileType,
       resolve: async (user: any, args: any, fastify: any) => {
-        return await fastify.db.profiles.findMany({key: 'userId', equals: user.id});
+        return await fastify.db.profiles.findOne({key: 'userId', equals: user.id});
       }
     },
     memberType: {
-      type: new GraphQLList(memberTypeType),
+      type: memberTypeType,
       resolve: async (user: any, args: any, fastify: any) => {
-        const profiles = await fastify.db.profiles.findMany({key: 'userId', equals: user.id});
+        // todo Плюсую. Оба пункта, в которых нужно возвращать memberType (2.3 и 2.4) идут вместе с профилем. Технически можно и юзеру добавить нужный резолвер, но через профиль выглядит логичнее
+        const profile = await fastify.db.profiles.findOne({key: 'userId', equals: user.id});
 
-        if (profiles.length === 0) {
-          return Promise.resolve([]);
+        if (profile === null) {
+          return Promise.resolve(null);
         }
 
-        return await fastify.db.memberTypes.findMany({key: 'id', equals: profiles[0].memberTypeId});
+        return await fastify.db.memberTypes.findOne({key: 'id', equals: profile.memberTypeId});
+      }
+    },
+    // these are users that the current user is following.
+    userSubscribedTo: {
+      type: new GraphQLList(userType),
+      resolve: async (user: any, args: any, fastify: any) => {
+        return await fastify.db.users.findMany({key: 'subscribedToUserIds', inArray: user.id});
       }
     }
-  }
+  })
 });
 
 export { userType };

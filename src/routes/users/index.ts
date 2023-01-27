@@ -105,7 +105,7 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
     },
     async function (request, reply): Promise<UserEntity> {
       const { id } = request.params;
-      const { userId: userIdSubscribeFrom } = request.body;
+      const { userId: userIdSubscribeTo } = request.body;
 
       const user = await fastify.db.users.findOne({key: 'id', equals: id});
 
@@ -113,19 +113,19 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
         throw fastify.httpErrors.notFound();
       }
 
-      const userSubscribeFrom = await fastify.db.users.findOne({key: 'id', equals: userIdSubscribeFrom});
+      const userSubscribeTo = await fastify.db.users.findOne({key: 'id', equals: userIdSubscribeTo});
 
-      if (userSubscribeFrom === null) {
+      if (userSubscribeTo === null) {
         throw fastify.httpErrors.notFound();
       }
 
-      if (userSubscribeFrom.subscribedToUserIds.includes(id)) {
+      if (userSubscribeTo.subscribedToUserIds.includes(id)) {
         throw fastify.httpErrors.badRequest();
       }
 
-      userSubscribeFrom.subscribedToUserIds.push(id);
+      userSubscribeTo.subscribedToUserIds.push(id);
 
-      await fastify.db.users.change(userIdSubscribeFrom, userSubscribeFrom);
+      await fastify.db.users.change(userIdSubscribeTo, userSubscribeTo);
 
       return user;
     }
@@ -155,6 +155,7 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
         throw fastify.httpErrors.notFound();
       }
 
+      // `subscribedToUserIds` - this is who subscribed to `user` - followers
       if (!user.subscribedToUserIds.includes(userIdUnsubscribeFrom)) {
         throw fastify.httpErrors.badRequest();
       }
