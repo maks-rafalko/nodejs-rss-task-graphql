@@ -40,9 +40,16 @@ const schema = buildSchema(`
 
   type Query {
     users: [User!]!,
+    user(id: ID!): User,
+
     profiles: [Profile!]!,
+    profile(id: ID!): Profile,
+    
     posts: [Post!]!,
+    post(id: ID!): Post,
+    
     memberTypes: [MemberType!]!,
+    memberType(id: ID!): MemberType,
   }
 `);
 
@@ -51,15 +58,27 @@ const rootValue = {
   users: async (args: any, fastify: FastifyInstance) => {
     return await fastify.db.users.findMany();
   },
+  user: async (args: any, fastify: FastifyInstance) => {
+    return await fastify.db.users.findOne({key: 'id', equals: args.id});
+  },
   profiles: async (args: any, fastify: FastifyInstance) => {
     return await fastify.db.profiles.findMany();
+  },
+  profile: async (args: any, fastify: FastifyInstance) => {
+    return await fastify.db.profiles.findOne({key: 'id', equals: args.id});
   },
   posts: async (args: any, fastify: FastifyInstance) => {
     return await fastify.db.posts.findMany();
   },
+  post: async (args: any, fastify: FastifyInstance) => {
+    return await fastify.db.posts.findOne({key: 'id', equals: args.id});
+  },
   memberTypes: async (args: any, fastify: FastifyInstance) => {
     return await fastify.db.memberTypes.findMany();
   },
+  memberType: async (args: any, fastify: FastifyInstance) => {
+    return await fastify.db.memberTypes.findOne({key: 'id', equals: args.id});
+  }
 };
 
 const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
