@@ -17,13 +17,13 @@ const userType = new GraphQLObjectType({
         return await fastify.db.posts.findMany({key: 'userId', equals: user.id});
       }
     },
-    profiles: {
+    profile: {
       type: new GraphQLList(profileType),
       resolve: async (user: any, args: any, fastify: any) => {
         return await fastify.db.profiles.findMany({key: 'userId', equals: user.id});
       }
     },
-    memberTypes: {
+    memberType: {
       type: new GraphQLList(memberTypeType),
       resolve: async (user: any, args: any, fastify: any) => {
         const profiles = await fastify.db.profiles.findMany({key: 'userId', equals: user.id});
