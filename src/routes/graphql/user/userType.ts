@@ -27,6 +27,9 @@ const userType = new GraphQLObjectType({
     memberType: {
       type: memberTypeType,
       resolve: async (user: any, args: any, fastify: any) => {
+        // todo complete cross-check for remote-control
+
+
         // todo Плюсую. Оба пункта, в которых нужно возвращать memberType (2.3 и 2.4) идут вместе с профилем. Технически можно и юзеру добавить нужный резолвер, но через профиль выглядит логичнее
         const profile = await fastify.db.profiles.findOne({key: 'userId', equals: user.id});
 
@@ -42,6 +45,13 @@ const userType = new GraphQLObjectType({
       type: new GraphQLList(userType),
       resolve: async (user: any, args: any, fastify: any) => {
         return await fastify.db.users.findMany({key: 'subscribedToUserIds', inArray: user.id});
+      }
+    },
+    // these are users who are following the current user.
+    subscribedToUser: {
+      type: new GraphQLList(userType),
+      resolve: async (user: any, args: any, fastify: any) => {
+        return await fastify.db.users.findMany({key: 'id', equalsAnyOf: user.subscribedToUserIds});
       }
     }
   })
