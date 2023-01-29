@@ -2,6 +2,7 @@ import {GraphQLID, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString} fr
 import {postType} from "../post/postType";
 import {profileType} from "../profile/profileType";
 import {memberTypeType} from "../memberType/memberTypeType";
+import {FastifyInstance} from "fastify";
 
 // @ts-ignore
 const userType = new GraphQLObjectType({
@@ -14,19 +15,19 @@ const userType = new GraphQLObjectType({
     subscribedToUserIds: { type: new GraphQLList(GraphQLInt) },
     posts: {
       type: new GraphQLList(postType),
-      resolve: async (user: any, args: any, fastify: any) => {
+      resolve: async (user: any, args: any, fastify: FastifyInstance) => {
         return await fastify.db.posts.findMany({key: 'userId', equals: user.id});
       }
     },
     profile: {
       type: profileType,
-      resolve: async (user: any, args: any, fastify: any) => {
+      resolve: async (user: any, args: any, fastify: FastifyInstance) => {
         return await fastify.db.profiles.findOne({key: 'userId', equals: user.id});
       }
     },
     memberType: {
       type: memberTypeType,
-      resolve: async (user: any, args: any, fastify: any) => {
+      resolve: async (user: any, args: any, fastify: FastifyInstance) => {
         // todo complete cross-check for remote-control
 
 
@@ -43,14 +44,14 @@ const userType = new GraphQLObjectType({
     // these are users that the current user is following.
     userSubscribedTo: {
       type: new GraphQLList(userType),
-      resolve: async (user: any, args: any, fastify: any) => {
+      resolve: async (user: any, args: any, fastify: FastifyInstance) => {
         return await fastify.db.users.findMany({key: 'subscribedToUserIds', inArray: user.id});
       }
     },
     // these are users who are following the current user.
     subscribedToUser: {
       type: new GraphQLList(userType),
-      resolve: async (user: any, args: any, fastify: any) => {
+      resolve: async (user: any, args: any, fastify: FastifyInstance) => {
         return await fastify.db.users.findMany({key: 'id', equalsAnyOf: user.subscribedToUserIds});
       }
     }

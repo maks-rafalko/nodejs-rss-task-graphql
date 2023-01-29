@@ -15,13 +15,15 @@ import { memberTypeQuery } from './memberType/memberTypeQuery';
 import { memberTypesQuery } from './memberType/memberTypesQuery';
 import { createUserQuery } from './user/createUserQuery';
 import { createProfileQuery } from './profile/createProfileQuery';
-import {createPostQuery} from "./post/createPostQuery";
-import {updateUserQuery} from "./user/updateUserQuery";
-import {updateProfileQuery} from "./profile/updateProfileQuery";
-import {updatePostQuery} from "./post/updatePostQuery";
-import {updateMemberTypeQuery} from "./memberType/updateMemberTypeQuery";
+import { createPostQuery } from './post/createPostQuery';
+import { updateUserQuery } from './user/updateUserQuery';
+import { updateProfileQuery } from './profile/updateProfileQuery';
+import { updatePostQuery } from './post/updatePostQuery';
+import { updateMemberTypeQuery } from './memberType/updateMemberTypeQuery';
+import { subscribeUserToQuery } from './user/subscribeUserToQuery';
 
 // tODO check REST patch schemas and allow the only same fields in graphql!
+// todo in graphql, do not use http errors
 
 const querySchema = new GraphQLObjectType({
   name: 'Query',
@@ -45,6 +47,7 @@ const mutationSchema = new GraphQLObjectType({
   fields: {
     createUser: createUserQuery,
     updateUser: updateUserQuery,
+    subscribeUserTo: subscribeUserToQuery,
 
     createProfile: createProfileQuery,
     updateProfile: updateProfileQuery,
