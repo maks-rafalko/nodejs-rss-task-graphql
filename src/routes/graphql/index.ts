@@ -2,8 +2,10 @@ import { FastifyPluginAsyncJsonSchemaToTs } from '@fastify/type-provider-json-sc
 import { graphqlBodySchema } from './schema';
 import {
   graphql,
+  validate,
+  parse,
   GraphQLSchema,
-  GraphQLObjectType,
+  GraphQLObjectType, DocumentNode, Source,
 } from 'graphql';
 import { userQuery } from './user/userQuery';
 import { usersQuery } from './user/usersQuery';
@@ -22,6 +24,9 @@ import { updatePostQuery } from './post/updatePostQuery';
 import { updateMemberTypeQuery } from './memberType/updateMemberTypeQuery';
 import { subscribeUserToQuery } from './user/subscribeUserToQuery';
 import { unsubscribeUserFromQuery } from './user/unsubscribeUserFromQuery';
+const depthLimit = require('graphql-depth-limit');
+
+const GRAPHQL_QUERY_DEPTH_LIMIT = 6;
 
 // tODO check REST patch schemas and allow the only same fields in graphql!
 // todo in graphql, do not use http errors
@@ -80,10 +85,31 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
     },
     async function (request, reply) {
       const { query, variables } = request.body;
+      const queryAsString = String(query);
+
+      let documentAST: DocumentNode;
+      try {
+        documentAST = parse(new Source(queryAsString, 'GraphQL request'));
+      } catch (syntaxError: any) {
+        // Return 400: Bad Request if any syntax errors exist.
+        throw fastify.httpErrors.badRequest(syntaxError.message);
+      }
+
+      const validationErrors = validate(schema, documentAST, [
+        depthLimit(GRAPHQL_QUERY_DEPTH_LIMIT)
+      ]);
+
+      if (validationErrors.length > 0) {
+        reply.send({
+          data: null,
+          errors: validationErrors
+        });
+        return;
+      }
 
       return await graphql({
         schema,
-        source: String(query),
+        source: queryAsString,
         variableValues: variables,
         contextValue: fastify,
       });
