@@ -18,6 +18,7 @@ import { createProfileQuery } from './profile/createProfileQuery';
 import {createPostQuery} from "./post/createPostQuery";
 import {updateUserQuery} from "./user/updateUserQuery";
 import {updateProfileQuery} from "./profile/updateProfileQuery";
+import {updatePostQuery} from "./post/updatePostQuery";
 
 const querySchema = new GraphQLObjectType({
   name: 'Query',
@@ -46,6 +47,7 @@ const mutationSchema = new GraphQLObjectType({
     updateProfile: updateProfileQuery,
 
     createPost: createPostQuery,
+    updatePost: updatePostQuery,
   }
 });
 

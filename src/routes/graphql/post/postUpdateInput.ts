@@ -1,7 +1,7 @@
 import {GraphQLString, GraphQLInputObjectType} from 'graphql';
 
-const postInput = new GraphQLInputObjectType({
-  name: 'PostInput',
+const postUpdateInput = new GraphQLInputObjectType({
+  name: 'PostUpdateInput',
   fields: () => ({
     title: { type: GraphQLString },
     content: { type: GraphQLString },
@@ -9,4 +9,4 @@ const postInput = new GraphQLInputObjectType({
   })
 });
 
-export { postInput };
+export { postUpdateInput };

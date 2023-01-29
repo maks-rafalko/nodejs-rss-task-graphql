@@ -1,4 +1,4 @@
-import {postInput} from './postInput';
+import {postCreateInput} from './postCreateInput';
 import {FastifyInstance} from "fastify";
 import {postType} from "./postType";
 import {isUuid} from "../../../utils/isUuid";
@@ -6,7 +6,7 @@ import {isUuid} from "../../../utils/isUuid";
 const createPostQuery = {
   type: postType,
   args: {
-    post: { type: postInput }
+    post: { type: postCreateInput }
   },
   resolve: async (_: any, args: any, fastify: FastifyInstance) => {
     const { userId } = args.post;
