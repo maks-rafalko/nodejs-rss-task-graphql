@@ -17,6 +17,7 @@ import { createUserQuery } from './user/createUserQuery';
 import { createProfileQuery } from './profile/createProfileQuery';
 import {createPostQuery} from "./post/createPostQuery";
 import {updateUserQuery} from "./user/updateUserQuery";
+import {updateProfileQuery} from "./profile/updateProfileQuery";
 
 const querySchema = new GraphQLObjectType({
   name: 'Query',
@@ -35,7 +36,6 @@ const querySchema = new GraphQLObjectType({
   }
 });
 
-// todo add new GraphQLNonNull()
 const mutationSchema = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
@@ -43,6 +43,8 @@ const mutationSchema = new GraphQLObjectType({
     updateUser: updateUserQuery,
 
     createProfile: createProfileQuery,
+    updateProfile: updateProfileQuery,
+
     createPost: createPostQuery,
   }
 });
@@ -64,8 +66,6 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
     },
     async function (request, reply) {
       const { query, variables } = request.body;
-
-      // const result = await this.graphql(query, variables);
 
       return await graphql({
         schema,

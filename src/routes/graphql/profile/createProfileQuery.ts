@@ -1,11 +1,11 @@
 import {FastifyInstance} from "fastify";
 import {profileType} from "./profileType";
-import {profileInput} from "./profileInput";
+import {profileCreateInput} from "./profileCreateInput";
 
 const createProfileQuery = {
   type: profileType,
   args: {
-    profile: { type: profileInput }
+    profile: { type: profileCreateInput }
   },
   resolve: async (_: any, args: any, fastify: FastifyInstance) => {
     // todo reuse the code with REST

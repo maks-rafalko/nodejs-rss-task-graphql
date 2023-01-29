@@ -1,7 +1,7 @@
 import {GraphQLString, GraphQLInputObjectType, GraphQLInt} from 'graphql';
 
-const profileInput = new GraphQLInputObjectType({
-  name: 'ProfileInput',
+const profileUpdateInput = new GraphQLInputObjectType({
+  name: 'ProfileUpdateInput',
   fields: () => ({
     avatar: { type: GraphQLString },
     sex: { type: GraphQLString },
@@ -14,4 +14,4 @@ const profileInput = new GraphQLInputObjectType({
   })
 });
 
-export { profileInput };
+export { profileUpdateInput };
