@@ -19,6 +19,9 @@ import {createPostQuery} from "./post/createPostQuery";
 import {updateUserQuery} from "./user/updateUserQuery";
 import {updateProfileQuery} from "./profile/updateProfileQuery";
 import {updatePostQuery} from "./post/updatePostQuery";
+import {updateMemberTypeQuery} from "./memberType/updateMemberTypeQuery";
+
+// tODO check REST patch schemas and allow the only same fields in graphql!
 
 const querySchema = new GraphQLObjectType({
   name: 'Query',
@@ -48,6 +51,8 @@ const mutationSchema = new GraphQLObjectType({
 
     createPost: createPostQuery,
     updatePost: updatePostQuery,
+
+    updateMemberType: updateMemberTypeQuery,
   }
 });
 
