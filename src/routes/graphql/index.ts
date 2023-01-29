@@ -21,9 +21,12 @@ import { updateProfileQuery } from './profile/updateProfileQuery';
 import { updatePostQuery } from './post/updatePostQuery';
 import { updateMemberTypeQuery } from './memberType/updateMemberTypeQuery';
 import { subscribeUserToQuery } from './user/subscribeUserToQuery';
+import { unsubscribeUserFromQuery } from './user/unsubscribeUserFromQuery';
 
 // tODO check REST patch schemas and allow the only same fields in graphql!
 // todo in graphql, do not use http errors
+// todo check all methods use variables instead of hardcoded values
+// check in some playground - whether there are any warnings / errors
 
 const querySchema = new GraphQLObjectType({
   name: 'Query',
@@ -48,6 +51,7 @@ const mutationSchema = new GraphQLObjectType({
     createUser: createUserQuery,
     updateUser: updateUserQuery,
     subscribeUserTo: subscribeUserToQuery,
+    unsubscribeUserFrom: unsubscribeUserFromQuery,
 
     createProfile: createProfileQuery,
     updateProfile: updateProfileQuery,
