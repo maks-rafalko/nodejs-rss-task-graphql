@@ -8,9 +8,7 @@ const userQuery = {
     id: { type: GraphQLString }
   },
   resolve: async (_: any, args: any, context: ContextValueType) => {
-    const userById = context.loaders.userById;
-
-    return await userById.load(args.id);
+    return await context.loaders.userById.load(args.id);
   }
 };
 

@@ -8,7 +8,9 @@ type Loaders = {
   userById: DataLoader<string, UserEntity>;
   usersBySubscribedToUserIds: DataLoader<string, UserEntity[]>;
   postsByUserId: DataLoader<string, PostEntity[]>;
+  postById: DataLoader<string, PostEntity>;
   profilesByUserId: DataLoader<string, ProfileEntity[]>;
+  profileById: DataLoader<string, ProfileEntity>;
   memberTypeById: DataLoader<string, MemberTypeEntity>;
   populateUserCache: (users: UserEntity[]) => void;
   populateMemberTypeCache: (memberTypes: MemberTypeEntity[]) => void;

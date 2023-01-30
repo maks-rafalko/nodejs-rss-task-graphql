@@ -16,6 +16,18 @@ const createDataLoaders = (fastify: FastifyInstance): Loaders => {
     return userIds.map(userId => groupedByUserId[userId] ?? []);
   });
 
+  const postById = new DataLoader<string, PostEntity>(async (postIds: readonly string[]): Promise<PostEntity[]> => {
+    const posts = await fastify.db.posts.findMany({key: 'id', equalsAnyOf: postIds as string[]});
+
+    const postsById: Record<string, PostEntity> = {};
+
+    for (const post of posts) {
+      postsById[post.id] = post;
+    }
+
+    return postIds.map(postId => postsById[postId] ?? null);
+  });
+
   const userById = new DataLoader<string, UserEntity>(async (userIds: readonly string[]): Promise<UserEntity[]> => {
     const users = await fastify.db.users.findMany({key: 'id', equalsAnyOf: userIds as string[]});
 
@@ -55,6 +67,18 @@ const createDataLoaders = (fastify: FastifyInstance): Loaders => {
     return userIds.map(userId => groupedByUserId[userId] ?? []);
   });
 
+  const profileById = new DataLoader<string, ProfileEntity>(async (profileIds: readonly string[]): Promise<ProfileEntity[]> => {
+    const profiles: ProfileEntity[] = await fastify.db.profiles.findMany({key: 'id', equalsAnyOf: profileIds as string[]});
+
+    const profilesById: Record<string, ProfileEntity> = {};
+
+    for (const profile of profiles) {
+      profilesById[profile.id] = profile;
+    }
+
+    return profileIds.map(profileId => profilesById[profileId] ?? null);
+  });
+
   const memberTypeById = new DataLoader<string, MemberTypeEntity>(async (memberTypeIds: readonly string[]): Promise<MemberTypeEntity[]> => {
     const memberTypes: MemberTypeEntity[] = await fastify.db.memberTypes.findMany({key: 'id', equalsAnyOf: memberTypeIds as string[]});
 
@@ -71,7 +95,9 @@ const createDataLoaders = (fastify: FastifyInstance): Loaders => {
     userById,
     usersBySubscribedToUserIds,
     postsByUserId,
+    postById,
     profilesByUserId,
+    profileById,
     memberTypeById,
     populateUserCache: (users: UserEntity[]): void => {
       for (const user of users) {
