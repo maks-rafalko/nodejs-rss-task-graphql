@@ -1,11 +1,16 @@
 import {GraphQLList} from "graphql";
-import {FastifyInstance} from "fastify";
 import {memberTypeType} from "./memberTypeType";
+import {ContextValueType} from "../ContextValueType";
+import {MemberTypeEntity} from "../../../utils/DB/entities/DBMemberTypes";
 
 const memberTypesQuery = {
   type: new GraphQLList(memberTypeType),
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
-    return await fastify.db.memberTypes.findMany();
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    const memberTypes: MemberTypeEntity[] = await context.fastify.db.memberTypes.findMany();
+
+    context.loaders.populateMemberTypeCache(memberTypes);
+
+    return memberTypes;
   }
 };
 

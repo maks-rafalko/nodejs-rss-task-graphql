@@ -1,11 +1,11 @@
 import {GraphQLList} from "graphql";
-import {FastifyInstance} from "fastify";
 import {postType} from "./postType";
+import {ContextValueType} from "../ContextValueType";
 
 const postsQuery = {
   type: new GraphQLList(postType),
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
-    return await fastify.db.posts.findMany();
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    return await context.fastify.db.posts.findMany();
   }
 };
 

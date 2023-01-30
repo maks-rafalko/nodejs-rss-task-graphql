@@ -1,14 +1,15 @@
 import {FastifyInstance} from "fastify";
 import {profileType} from "./profileType";
 import {profileCreateInput} from "./profileCreateInput";
+import {ContextValueType} from "../ContextValueType";
 
 const createProfileQuery = {
   type: profileType,
   args: {
     profile: { type: profileCreateInput }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
-    // todo reuse the code with REST
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    const fastify: FastifyInstance = context.fastify;
     const { userId, memberTypeId } = args.profile;
 
     const user = await fastify.db.users.findOne({key: 'id', equals: userId});

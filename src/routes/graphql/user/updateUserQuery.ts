@@ -3,6 +3,7 @@ import {userType} from "./userType";
 import {isUuid} from "../../../utils/isUuid";
 import {GraphQLString} from "graphql";
 import {userUpdateInput} from "./userUpdateInput";
+import {ContextValueType} from "../ContextValueType";
 
 const updateUserQuery = {
   type: userType,
@@ -10,7 +11,8 @@ const updateUserQuery = {
     user: { type: userUpdateInput },
     userId: { type: GraphQLString }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    const fastify: FastifyInstance = context.fastify;
     const id = args.userId;
 
     if (!isUuid(id)) {

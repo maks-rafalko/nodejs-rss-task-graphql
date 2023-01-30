@@ -1,14 +1,14 @@
 import {GraphQLString} from "graphql";
-import {FastifyInstance} from "fastify";
 import {postType} from "./postType";
+import {ContextValueType} from "../ContextValueType";
 
 const postQuery = {
   type: postType,
   args: {
     id: { type: GraphQLString }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
-    return await fastify.db.posts.findOne({key: 'id', equals: args.id});
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    return await context.fastify.db.posts.findOne({key: 'id', equals: args.id});
   }
 };
 

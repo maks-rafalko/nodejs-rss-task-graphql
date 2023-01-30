@@ -3,6 +3,7 @@ import {profileType} from "./profileType";
 import {GraphQLString} from "graphql";
 import {isUuid} from "../../../utils/isUuid";
 import {profileUpdateInput} from "./profileUpdateInput";
+import {ContextValueType} from "../ContextValueType";
 
 const updateProfileQuery = {
   type: profileType,
@@ -10,7 +11,8 @@ const updateProfileQuery = {
     profileId: { type: GraphQLString },
     profile: { type: profileUpdateInput }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    const fastify: FastifyInstance = context.fastify;
     const id = args.profileId;
 
     if (!isUuid(id)) {

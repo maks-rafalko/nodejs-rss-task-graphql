@@ -1,14 +1,14 @@
 import {GraphQLString} from "graphql";
-import {FastifyInstance} from "fastify";
 import {memberTypeType} from "./memberTypeType";
+import {ContextValueType} from "../ContextValueType";
 
 const memberTypeQuery = {
   type: memberTypeType,
   args: {
     id: { type: GraphQLString }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
-    return await fastify.db.memberTypes.findOne({key: 'id', equals: args.id});
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    return await context.loaders.memberTypeById.load(args.id);
   }
 };
 

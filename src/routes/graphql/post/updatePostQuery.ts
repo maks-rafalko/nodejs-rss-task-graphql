@@ -3,6 +3,7 @@ import {postType} from "./postType";
 import {isUuid} from "../../../utils/isUuid";
 import {postUpdateInput} from "./postUpdateInput";
 import {GraphQLString} from "graphql";
+import {ContextValueType} from "../ContextValueType";
 
 const updatePostQuery = {
   type: postType,
@@ -10,8 +11,9 @@ const updatePostQuery = {
     postId: { type: GraphQLString },
     post: { type: postUpdateInput }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
+  resolve: async (_: any, args: any, context: ContextValueType) => {
     const id = args.postId;
+    const fastify: FastifyInstance = context.fastify;
 
     if (!isUuid(id)) {
       throw fastify.httpErrors.badRequest('Post id is not a valid uuid');

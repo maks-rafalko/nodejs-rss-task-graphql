@@ -1,13 +1,15 @@
 import {FastifyInstance} from "fastify";
 import {userType} from "./userType";
 import {userSubscribeToInput} from "./userSubscribeToInput";
+import {ContextValueType} from "../ContextValueType";
 
 const subscribeUserToQuery = {
   type: userType,
   args: {
     payload: { type: userSubscribeToInput }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    const fastify: FastifyInstance = context.fastify;
     const currentUserId = args.payload.currentUserId;
     const subscribeToUserId = args.payload.subscribeToUserId;
 

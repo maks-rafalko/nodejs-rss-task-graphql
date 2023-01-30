@@ -2,13 +2,15 @@ import {postCreateInput} from './postCreateInput';
 import {FastifyInstance} from "fastify";
 import {postType} from "./postType";
 import {isUuid} from "../../../utils/isUuid";
+import {ContextValueType} from "../ContextValueType";
 
 const createPostQuery = {
   type: postType,
   args: {
     post: { type: postCreateInput }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    const fastify: FastifyInstance = context.fastify;
     const { userId } = args.post;
 
     if (!isUuid(userId)) {

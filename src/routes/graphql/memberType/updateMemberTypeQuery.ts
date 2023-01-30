@@ -1,7 +1,8 @@
-import {FastifyInstance} from "fastify";
 import {GraphQLString} from "graphql";
 import {memberTypeUpdateInput} from "./memberTypeUpdateInput";
 import {memberTypeType} from "./memberTypeType";
+import {ContextValueType} from "../ContextValueType";
+import {FastifyInstance} from "fastify";
 
 const updateMemberTypeQuery = {
   type: memberTypeType,
@@ -9,9 +10,11 @@ const updateMemberTypeQuery = {
     memberTypeId: { type: GraphQLString },
     memberType: { type: memberTypeUpdateInput }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
+  resolve: async (_: any, args: any, context: ContextValueType) => {
     const id = args.memberTypeId;
-    const memberType = await fastify.db.memberTypes.findOne({key: 'id', equals: id});
+    const fastify: FastifyInstance = context.fastify;
+
+    const memberType = await context.loaders.memberTypeById.load(id);
 
     if (memberType === null) {
       throw fastify.httpErrors.badRequest('Member type not found');

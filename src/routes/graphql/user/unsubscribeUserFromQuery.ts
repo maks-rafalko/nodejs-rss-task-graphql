@@ -3,13 +3,15 @@ import {userType} from "./userType";
 import {userUnsubscribeFromInput} from "./userUnsubscribeFromInput";
 import {UserEntity} from "../../../utils/DB/entities/DBUsers";
 import {removeArrayItem} from "../../../utils/removeArrayItem";
+import {ContextValueType} from "../ContextValueType";
 
 const unsubscribeUserFromQuery = {
   type: userType,
   args: {
     payload: { type: userUnsubscribeFromInput }
   },
-  resolve: async (_: any, args: any, fastify: FastifyInstance): Promise<UserEntity> => {
+  resolve: async (_: any, args: any, context: ContextValueType): Promise<UserEntity> => {
+    const fastify: FastifyInstance = context.fastify;
     const unsubscribeFromUserId = args.payload.unsubscribeFromUserId;
     const currentUserId = args.payload.currentUserId;
 

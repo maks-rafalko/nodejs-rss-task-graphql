@@ -1,11 +1,16 @@
 import {GraphQLList} from "graphql";
 import {userType} from "./userType";
-import {FastifyInstance} from "fastify";
+import {ContextValueType} from "../ContextValueType";
+import {UserEntity} from "../../../utils/DB/entities/DBUsers";
 
 const usersQuery = {
   type: new GraphQLList(userType),
-  resolve: async (_: any, args: any, fastify: FastifyInstance) => {
-    return await fastify.db.users.findMany();
+  resolve: async (_: any, args: any, context: ContextValueType) => {
+    const allUsers: UserEntity[] = await context.fastify.db.users.findMany();
+
+    context.loaders.populateUserCache(allUsers);
+
+    return allUsers;
   }
 };
 
