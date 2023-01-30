@@ -25,11 +25,6 @@ import { unsubscribeUserFromQuery } from './user/unsubscribeUserFromQuery';
 import { createDataLoaders } from './createDataLoaders';
 import { validateQuery } from './validateQuery';
 
-// todo bug with setting null
-// todo validate uuid by graphql
-// todo in graphql, do not use http errors
-// todo add postman collection
-
 const querySchema = new GraphQLObjectType({
   name: 'Query',
   fields: {
