@@ -3,6 +3,7 @@ import { memberTypeUpdateInput } from './memberTypeUpdateInput';
 import { memberTypeType } from './memberTypeType';
 import { ContextValueType } from '../ContextValueType';
 import { FastifyInstance } from 'fastify';
+import { MemberTypeEntity } from '../../../utils/DB/entities/DBMemberTypes';
 
 const updateMemberTypeQuery = {
   type: memberTypeType,
@@ -10,7 +11,7 @@ const updateMemberTypeQuery = {
     memberTypeId: { type: GraphQLString },
     memberType: { type: memberTypeUpdateInput }
   },
-  resolve: async (_: any, args: any, context: ContextValueType) => {
+  resolve: async (_: any, args: any, context: ContextValueType): Promise<MemberTypeEntity> => {
     const id = args.memberTypeId;
     const fastify: FastifyInstance = context.fastify;
 

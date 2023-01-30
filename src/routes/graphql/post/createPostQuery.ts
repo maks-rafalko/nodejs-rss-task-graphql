@@ -3,13 +3,14 @@ import { FastifyInstance } from 'fastify';
 import { postType } from './postType';
 import { isUuid } from '../../../utils/isUuid';
 import { ContextValueType } from '../ContextValueType';
+import { PostEntity } from '../../../utils/DB/entities/DBPosts';
 
 const createPostQuery = {
   type: postType,
   args: {
     post: { type: postCreateInput }
   },
-  resolve: async (_: any, args: any, context: ContextValueType) => {
+  resolve: async (_: any, args: any, context: ContextValueType): Promise<PostEntity> => {
     const fastify: FastifyInstance = context.fastify;
     const { userId } = args.post;
 

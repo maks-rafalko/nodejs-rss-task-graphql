@@ -1,11 +1,14 @@
 import { GraphQLID, GraphQLList, GraphQLObjectType, GraphQLString } from 'graphql';
-import { postType} from '../post/postType';
-import { profileType} from '../profile/profileType';
-import { memberTypeType} from '../memberType/memberTypeType';
-import { ContextValueType} from '../ContextValueType';
+import { postType } from '../post/postType';
+import { profileType } from '../profile/profileType';
+import { memberTypeType } from '../memberType/memberTypeType';
+import { ContextValueType } from '../ContextValueType';
+import { UserEntity } from "../../../utils/DB/entities/DBUsers";
+import { PostEntity } from "../../../utils/DB/entities/DBPosts";
+import { ProfileEntity } from "../../../utils/DB/entities/DBProfiles";
+import { MemberTypeEntity } from "../../../utils/DB/entities/DBMemberTypes";
 
-// @ts-ignore
-const userType = new GraphQLObjectType({
+const userType: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
     id: { type: GraphQLID },
@@ -15,7 +18,7 @@ const userType = new GraphQLObjectType({
     subscribedToUserIds: { type: new GraphQLList(GraphQLString) },
     posts: {
       type: new GraphQLList(postType),
-      resolve: async (user: any, args: any, context: ContextValueType) => {
+      resolve: async (user: UserEntity, args: any, context: ContextValueType): Promise<PostEntity[]> => {
         const postsByUserId = context.loaders.postsByUserId;
 
         return await postsByUserId.load(user.id);
@@ -23,7 +26,7 @@ const userType = new GraphQLObjectType({
     },
     profile: {
       type: profileType,
-      resolve: async (user: any, args: any, context: ContextValueType) => {
+      resolve: async (user: UserEntity, args: any, context: ContextValueType): Promise<ProfileEntity | null> => {
         const profilesByUserId = context.loaders.profilesByUserId;
 
         const profiles = await profilesByUserId.load(user.id);
@@ -33,7 +36,7 @@ const userType = new GraphQLObjectType({
     },
     memberType: {
       type: memberTypeType,
-      resolve: async (user: any, args: any, context: ContextValueType) => {
+      resolve: async (user: UserEntity, args: any, context: ContextValueType): Promise<MemberTypeEntity | null> => {
         const profilesByUserId = context.loaders.profilesByUserId;
         const profiles = await profilesByUserId.load(user.id);
 
@@ -49,15 +52,16 @@ const userType = new GraphQLObjectType({
     // these are users that the current user is following.
     userSubscribedTo: {
       type: new GraphQLList(userType),
-      resolve: async (user: any, args: any, context: ContextValueType) => {
+      resolve: async (user: UserEntity, args: any, context: ContextValueType): Promise<UserEntity[]> => {
         const usersBySubscribedToUserIds = context.loaders.usersBySubscribedToUserIds;
+
         return await usersBySubscribedToUserIds.load(user.id);
       }
     },
     // these are users who are following the current user.
     subscribedToUser: {
       type: new GraphQLList(userType),
-      resolve: async (user: any, args: any, context: ContextValueType) => {
+      resolve: async (user: UserEntity, args: any, context: ContextValueType): Promise<(UserEntity | Error)[]> => {
         const userById = context.loaders.userById;
 
         return await userById.loadMany(user.subscribedToUserIds);

@@ -14,4 +14,4 @@ const usersQuery = {
   }
 };
 
-export { usersQuery}
+export { usersQuery };
