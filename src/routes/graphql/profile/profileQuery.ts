@@ -1,6 +1,6 @@
-import {GraphQLString} from "graphql";
-import {profileType} from "./profileType";
-import {ContextValueType} from "../ContextValueType";
+import { GraphQLString } from 'graphql';
+import { profileType } from './profileType';
+import { ContextValueType } from '../ContextValueType';
 
 const profileQuery = {
   type: profileType,

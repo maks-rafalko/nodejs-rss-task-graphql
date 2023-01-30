@@ -1,4 +1,4 @@
-import {GraphQLID, GraphQLObjectType, GraphQLString} from 'graphql';
+import { GraphQLID, GraphQLObjectType, GraphQLString } from 'graphql';
 
 const postType = new GraphQLObjectType({
   name: 'Post',

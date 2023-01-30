@@ -1,8 +1,8 @@
-import {GraphQLString} from "graphql";
-import {memberTypeUpdateInput} from "./memberTypeUpdateInput";
-import {memberTypeType} from "./memberTypeType";
-import {ContextValueType} from "../ContextValueType";
-import {FastifyInstance} from "fastify";
+import { GraphQLString } from 'graphql';
+import { memberTypeUpdateInput } from './memberTypeUpdateInput';
+import { memberTypeType } from './memberTypeType';
+import { ContextValueType } from '../ContextValueType';
+import { FastifyInstance } from 'fastify';
 
 const updateMemberTypeQuery = {
   type: memberTypeType,

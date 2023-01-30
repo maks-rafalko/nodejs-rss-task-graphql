@@ -1,8 +1,8 @@
-import {postCreateInput} from './postCreateInput';
-import {FastifyInstance} from "fastify";
-import {postType} from "./postType";
-import {isUuid} from "../../../utils/isUuid";
-import {ContextValueType} from "../ContextValueType";
+import { postCreateInput } from './postCreateInput';
+import { FastifyInstance } from 'fastify';
+import { postType } from './postType';
+import { isUuid } from '../../../utils/isUuid';
+import { ContextValueType } from '../ContextValueType';
 
 const createPostQuery = {
   type: postType,

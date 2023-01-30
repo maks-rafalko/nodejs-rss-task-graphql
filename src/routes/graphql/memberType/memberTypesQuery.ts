@@ -1,7 +1,7 @@
-import {GraphQLList} from "graphql";
-import {memberTypeType} from "./memberTypeType";
-import {ContextValueType} from "../ContextValueType";
-import {MemberTypeEntity} from "../../../utils/DB/entities/DBMemberTypes";
+import { GraphQLList } from 'graphql';
+import { memberTypeType } from './memberTypeType';
+import { ContextValueType } from '../ContextValueType';
+import { MemberTypeEntity } from '../../../utils/DB/entities/DBMemberTypes';
 
 const memberTypesQuery = {
   type: new GraphQLList(memberTypeType),

@@ -1,7 +1,7 @@
-import {GraphQLList} from "graphql";
-import {userType} from "./userType";
-import {ContextValueType} from "../ContextValueType";
-import {UserEntity} from "../../../utils/DB/entities/DBUsers";
+import { GraphQLList } from 'graphql';
+import { userType } from './userType';
+import { ContextValueType } from '../ContextValueType';
+import { UserEntity } from '../../../utils/DB/entities/DBUsers';
 
 const usersQuery = {
   type: new GraphQLList(userType),

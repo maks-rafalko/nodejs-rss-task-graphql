@@ -1,6 +1,6 @@
-import {GraphQLString} from "graphql";
-import {memberTypeType} from "./memberTypeType";
-import {ContextValueType} from "../ContextValueType";
+import { GraphQLString } from 'graphql';
+import { memberTypeType } from './memberTypeType';
+import { ContextValueType } from '../ContextValueType';
 
 const memberTypeQuery = {
   type: memberTypeType,

@@ -1,6 +1,6 @@
-import {GraphQLString} from "graphql";
-import {postType} from "./postType";
-import {ContextValueType} from "../ContextValueType";
+import { GraphQLString } from 'graphql';
+import { postType } from './postType';
+import { ContextValueType } from '../ContextValueType';
 
 const postQuery = {
   type: postType,

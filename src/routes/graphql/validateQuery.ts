@@ -1,7 +1,7 @@
-import {FastifyInstance} from "fastify";
-import {GraphQLError} from "graphql/error/GraphQLError";
-import {DocumentNode, GraphQLSchema, parse, Source, validate} from "graphql/index";
-import * as depthLimit from "graphql-depth-limit";
+import { FastifyInstance } from 'fastify';
+import { GraphQLError } from 'graphql/error/GraphQLError';
+import { DocumentNode, GraphQLSchema, parse, Source, validate } from 'graphql/index';
+import * as depthLimit from 'graphql-depth-limit';
 
 const GRAPHQL_QUERY_DEPTH_LIMIT = 6;
 

@@ -1,9 +1,9 @@
-import {FastifyInstance} from "fastify";
-import {postType} from "./postType";
-import {isUuid} from "../../../utils/isUuid";
-import {postUpdateInput} from "./postUpdateInput";
-import {GraphQLString} from "graphql";
-import {ContextValueType} from "../ContextValueType";
+import { FastifyInstance } from 'fastify';
+import { postType } from './postType';
+import { isUuid } from '../../../utils/isUuid';
+import { postUpdateInput } from './postUpdateInput';
+import { GraphQLString } from 'graphql';
+import { ContextValueType } from '../ContextValueType';
 
 const updatePostQuery = {
   type: postType,

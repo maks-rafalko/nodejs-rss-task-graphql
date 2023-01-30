@@ -1,7 +1,7 @@
-import {FastifyInstance} from "fastify";
-import {profileType} from "./profileType";
-import {profileCreateInput} from "./profileCreateInput";
-import {ContextValueType} from "../ContextValueType";
+import { FastifyInstance } from 'fastify';
+import { profileType } from './profileType';
+import { profileCreateInput } from './profileCreateInput';
+import { ContextValueType } from '../ContextValueType';
 
 const createProfileQuery = {
   type: profileType,

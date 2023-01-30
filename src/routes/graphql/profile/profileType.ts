@@ -1,4 +1,4 @@
-import {GraphQLID, GraphQLInt, GraphQLObjectType, GraphQLString} from 'graphql';
+import { GraphQLID, GraphQLInt, GraphQLObjectType, GraphQLString } from 'graphql';
 
 const profileType = new GraphQLObjectType({
   name: 'Profile',

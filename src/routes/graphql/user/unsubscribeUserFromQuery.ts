@@ -1,9 +1,9 @@
-import {FastifyInstance} from "fastify";
-import {userType} from "./userType";
-import {userUnsubscribeFromInput} from "./userUnsubscribeFromInput";
-import {UserEntity} from "../../../utils/DB/entities/DBUsers";
-import {removeArrayItem} from "../../../utils/removeArrayItem";
-import {ContextValueType} from "../ContextValueType";
+import { FastifyInstance } from 'fastify';
+import { userType } from './userType';
+import { userUnsubscribeFromInput } from './userUnsubscribeFromInput';
+import { UserEntity } from '../../../utils/DB/entities/DBUsers';
+import { removeArrayItem } from '../../../utils/removeArrayItem';
+import { ContextValueType } from '../ContextValueType';
 
 const unsubscribeUserFromQuery = {
   type: userType,

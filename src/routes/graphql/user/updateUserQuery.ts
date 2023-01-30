@@ -1,9 +1,9 @@
-import {FastifyInstance} from "fastify";
-import {userType} from "./userType";
-import {isUuid} from "../../../utils/isUuid";
-import {GraphQLString} from "graphql";
-import {userUpdateInput} from "./userUpdateInput";
-import {ContextValueType} from "../ContextValueType";
+import { FastifyInstance } from 'fastify';
+import { userType } from './userType';
+import { isUuid } from '../../../utils/isUuid';
+import { GraphQLString } from 'graphql';
+import { userUpdateInput } from './userUpdateInput';
+import { ContextValueType } from '../ContextValueType';
 
 const updateUserQuery = {
   type: userType,

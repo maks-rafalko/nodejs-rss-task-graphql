@@ -1,8 +1,8 @@
-import {GraphQLID, GraphQLList, GraphQLObjectType, GraphQLString} from 'graphql';
-import {postType} from "../post/postType";
-import {profileType} from "../profile/profileType";
-import {memberTypeType} from "../memberType/memberTypeType";
-import {ContextValueType} from "../ContextValueType";
+import { GraphQLID, GraphQLList, GraphQLObjectType, GraphQLString } from 'graphql';
+import { postType} from '../post/postType';
+import { profileType} from '../profile/profileType';
+import { memberTypeType} from '../memberType/memberTypeType';
+import { ContextValueType} from '../ContextValueType';
 
 // @ts-ignore
 const userType = new GraphQLObjectType({

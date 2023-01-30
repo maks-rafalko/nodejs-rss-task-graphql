@@ -1,7 +1,7 @@
-import {FastifyInstance} from "fastify";
-import {userType} from "./userType";
-import {userSubscribeToInput} from "./userSubscribeToInput";
-import {ContextValueType} from "../ContextValueType";
+import { FastifyInstance } from 'fastify';
+import { userType } from './userType';
+import { userSubscribeToInput } from './userSubscribeToInput';
+import { ContextValueType } from '../ContextValueType';
 
 const subscribeUserToQuery = {
   type: userType,

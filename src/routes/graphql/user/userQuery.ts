@@ -1,6 +1,6 @@
-import {userType} from "./userType";
-import {GraphQLString} from "graphql";
-import {ContextValueType} from "../ContextValueType";
+import { userType } from './userType';
+import { GraphQLString } from 'graphql';
+import { ContextValueType } from '../ContextValueType';
 
 const userQuery = {
   type: userType,

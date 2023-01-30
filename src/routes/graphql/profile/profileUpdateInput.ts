@@ -1,4 +1,4 @@
-import {GraphQLString, GraphQLInputObjectType, GraphQLInt} from 'graphql';
+import { GraphQLString, GraphQLInputObjectType, GraphQLInt } from 'graphql';
 
 const profileUpdateInput = new GraphQLInputObjectType({
   name: 'ProfileUpdateInput',

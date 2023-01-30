@@ -1,6 +1,6 @@
-import {GraphQLList} from "graphql";
-import {postType} from "./postType";
-import {ContextValueType} from "../ContextValueType";
+import { GraphQLList } from 'graphql';
+import { postType } from './postType';
+import { ContextValueType } from '../ContextValueType';
 
 const postsQuery = {
   type: new GraphQLList(postType),

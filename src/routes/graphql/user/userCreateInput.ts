@@ -1,4 +1,4 @@
-import {GraphQLString, GraphQLInputObjectType, GraphQLNonNull} from 'graphql';
+import { GraphQLString, GraphQLInputObjectType, GraphQLNonNull } from 'graphql';
 
 const userCreateInput = new GraphQLInputObjectType({
   name: 'UserCreateInput',

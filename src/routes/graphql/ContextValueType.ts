@@ -1,5 +1,5 @@
-import {FastifyInstance} from "fastify";
-import {Loaders} from "./Loaders";
+import { FastifyInstance } from 'fastify';
+import { Loaders } from './Loaders';
 
 type ContextValueType = {
   fastify: FastifyInstance;

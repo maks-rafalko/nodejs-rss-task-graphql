@@ -1,6 +1,6 @@
-import {userCreateInput} from './userCreateInput';
-import {userType} from "./userType";
-import {ContextValueType} from "../ContextValueType";
+import { userCreateInput } from './userCreateInput';
+import { userType } from './userType';
+import { ContextValueType } from '../ContextValueType';
 
 const createUserQuery = {
   type: userType,
