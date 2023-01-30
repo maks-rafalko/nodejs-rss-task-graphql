@@ -9,8 +9,6 @@ const profileUpdateInput = new GraphQLInputObjectType({
     country: { type: GraphQLString },
     street: { type: GraphQLString },
     city: { type: GraphQLString },
-    // todo validate uuid by graphql
-    userId: { type: GraphQLString },
     memberTypeId: { type: GraphQLString },
   })
 });

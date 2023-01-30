@@ -25,23 +25,21 @@ import { updateMemberTypeQuery } from './memberType/updateMemberTypeQuery';
 import { subscribeUserToQuery } from './user/subscribeUserToQuery';
 import { unsubscribeUserFromQuery } from './user/unsubscribeUserFromQuery';
 import * as depthLimit from 'graphql-depth-limit';
-import {FastifyInstance} from "fastify";
-import {GraphQLError} from "graphql/error/GraphQLError";
+import { FastifyInstance } from 'fastify';
+import { GraphQLError } from 'graphql/error/GraphQLError';
 import * as DataLoader from "dataloader";
-import {PostEntity} from "../../utils/DB/entities/DBPosts";
+import { PostEntity } from '../../utils/DB/entities/DBPosts';
 import * as lodash from 'lodash';
-import {UserEntity} from "../../utils/DB/entities/DBUsers";
-import {ProfileEntity} from "../../utils/DB/entities/DBProfiles";
-import {Loaders} from "./Loaders";
-import {MemberTypeEntity} from "../../utils/DB/entities/DBMemberTypes";
+import { UserEntity } from '../../utils/DB/entities/DBUsers';
+import { ProfileEntity } from '../../utils/DB/entities/DBProfiles';
+import { Loaders } from './Loaders';
+import { MemberTypeEntity } from '../../utils/DB/entities/DBMemberTypes';
 
 const GRAPHQL_QUERY_DEPTH_LIMIT = 6;
 
-// tODO check REST patch schemas and allow the only same fields in graphql!
+// todo bug with setting null
+// todo validate uuid by graphql
 // todo in graphql, do not use http errors
-// todo check all methods use variables instead of hardcoded values
-// todo check in some playground - whether there are any warnings / errors
-// todo remove commas (,) from all requests
 // todo add postman collection
 
 const querySchema = new GraphQLObjectType({

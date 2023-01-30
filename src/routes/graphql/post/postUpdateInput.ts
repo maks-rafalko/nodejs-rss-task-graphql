@@ -5,7 +5,6 @@ const postUpdateInput = new GraphQLInputObjectType({
   fields: () => ({
     title: { type: GraphQLString },
     content: { type: GraphQLString },
-    userId: { type: GraphQLString },
   })
 });
 
