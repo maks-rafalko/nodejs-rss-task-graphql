@@ -79,7 +79,6 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
       const { query, variables } = request.body;
       const queryAsString = String(query);
 
-      // @ts-ignore
       const validationErrors = validateQuery(schema, queryAsString, fastify);
 
       if (validationErrors.length > 0) {
@@ -87,7 +86,6 @@ const plugin: FastifyPluginAsyncJsonSchemaToTs = async (
         return;
       }
 
-      // @ts-ignore
       const loaders = createDataLoaders(fastify);
 
       return await graphql({
