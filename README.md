@@ -1,3 +1,44 @@
+## Install the application
+
+```bash
+git clone git@github.com:maks-rafalko/nodejs-rss-task-graphql.git
+
+git checkout feature/graphql-implementation
+
+cd nodejs-rss-task-graphql
+
+# install dependencies
+npm ci
+```
+
+## Run the application
+
+In the development mode:
+
+```bash
+npm run dev
+```
+
+In the production mode:
+
+```bash
+npm run start
+```
+
+After both commands, server is listening on http://localhost:3000/.
+
+GraphQL is available on http://localhost:3000/graphql.
+
+## Test the application
+
+```bash
+npm run test
+```
+
+## Postman collection
+
+You can find Postman collection in the `./RSS GraphQL.postman_collection.json` file to simplify testing the application.
+
 ## Assignment: Graphql
 ### Tasks:
 1. Add logic to the restful endpoints (users, posts, profiles, member-types folders in ./src/routes).  
